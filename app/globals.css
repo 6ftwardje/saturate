@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Saturate: sharp corners on UI chrome (belt-and-suspenders if Tailwind cache is stale).
+ * Keeps focus rings as outline; does not rely on rounded-* utilities alone.
+ */
+@layer base {
+  button,
+  input,
+  textarea,
+  select,
+  .cb-panel,
+  .cb-btn,
+  .cb-badge,
+  [role="navigation"],
+  nav {
+    border-radius: 0 !important;
+  }
+}
+
+:root {
+  /* System Helvetica stack — no webfont; Arial/sans-serif as fallback */
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --background: #000000;
+  --foreground: #ffffff;
+  --muted: rgba(255, 255, 255, 0.55);
+  --border: rgba(255, 255, 255, 0.1);
+  --card: #000000;
+  --accent: #ffffff;
+  --accent-foreground: #000000;
+  /* Layered surfaces — slightly lifted panels without heavy borders */
+  --surface-raised: rgba(255, 255, 255, 0.028);
+  --surface-sidebar: rgba(0, 0, 0, 0.92);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+
+/* Typography — thin, reference Saturate marketing */
+.cb-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.cb-display {
+  font-weight: 200;
+  letter-spacing: 0.02em;
+  line-height: 1.12;
+  font-size: clamp(1.75rem, 4vw, 3.25rem);
+  color: var(--foreground);
+  text-transform: none;
+}
+
+.cb-h1 {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.cb-h2 {
+  font-size: 1.1rem;
+  line-height: 1.3;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+.cb-body {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  font-weight: 300;
+  color: color-mix(in oklab, var(--foreground) 88%, var(--muted));
+}
+
+.cb-caption {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  font-weight: 300;
+  color: var(--muted);
+}
+
+/* Surfaces — sharp corners, hairline borders */
+.cb-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0;
+}
+
+.cb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0;
+  font-weight: 300;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  padding: 0.65rem 1.1rem;
+  transition: background 160ms ease, border-color 160ms ease, opacity 160ms ease;
+}
+
+.cb-btn-primary {
+  background: transparent;
+  border: 1px solid var(--foreground);
+  color: var(--foreground);
+}
+
+.cb-btn-primary:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.cb-btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+.cb-btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.cb-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0;
+  padding: 0.2rem 0.5rem;
+  font-weight: 400;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cb-badge-locked {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.cb-badge-available {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--foreground);
+}
+
+.cb-badge-completed {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--foreground);
+}
