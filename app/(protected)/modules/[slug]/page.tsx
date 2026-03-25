@@ -106,7 +106,7 @@ export default async function ModuleDetailPage({ params }: Props) {
                 {lessonsWithStatusList.map((lesson) => {
                   const isLocked = lesson.status === "locked";
                   return (
-                    <li key={lesson.id} className={isLocked ? "opacity-50" : ""}>
+                    <li key={lesson.id} className={isLocked ? "cb-unavailable-lesson" : ""}>
                       {isLocked ? (
                         <div className="cb-panel border border-[color-mix(in_oklab,var(--border)_85%,transparent)] bg-[var(--surface-raised)] p-4 sm:p-5 cursor-not-allowed">
                           <div className="flex items-start justify-between gap-6">

@@ -124,7 +124,7 @@ export default async function DashboardPage() {
                 <div className="mt-2">
                   <SaturateHueLine width={120} />
                 </div>
-                <p className="cb-body text-[color-mix(in_oklab,var(--foreground)_90%,var(--muted))]">
+                <p className="cb-body">
                   Pick up where you left off. One module at a time keeps the
                   standard high.
                 </p>
@@ -225,7 +225,7 @@ export default async function DashboardPage() {
 
                   return (
                     <li key={mod.id}>
-                      <div className="cb-panel border border-[color-mix(in_oklab,var(--border)_85%,transparent)] bg-black/40 p-5 sm:p-6 opacity-60">
+                      <div className="cb-panel cb-unavailable border border-[color-mix(in_oklab,var(--border)_90%,transparent)] bg-black/35 p-5 sm:p-6">
                         <div className="flex items-start justify-between gap-8">
                           <div className="min-w-0 space-y-3">
                             <div className="flex flex-wrap items-center gap-3">

@@ -46,7 +46,7 @@ function LoginForm() {
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#000000] text-[var(--foreground)]">
       <div className="w-full max-w-md space-y-8">
         <div className="flex flex-col items-center gap-1">
-          <SaturateLogo href="/" priority />
+          <SaturateLogo href="/login" priority />
           <SaturateHueLine width={88} />
         </div>
 

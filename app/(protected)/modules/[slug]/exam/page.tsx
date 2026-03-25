@@ -166,7 +166,7 @@ export default async function ModuleExamPage({ params }: Props) {
       }
       rail={
         <RightRailCard title="Exam protocol" eyebrow="Read first">
-          <ul className="space-y-4 cb-body text-[color-mix(in_oklab,var(--foreground)_88%,var(--muted))]">
+          <ul className="space-y-4 cb-body">
             <li>Answer every question before submitting.</li>
             <li>There is one best answer per question.</li>
             <li>You need {exam.passing_score}% to pass.</li>

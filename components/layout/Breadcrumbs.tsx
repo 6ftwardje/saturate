@@ -37,7 +37,7 @@ export function Breadcrumbs({
                 <span
                   className={
                     isLast
-                      ? "text-[color-mix(in_oklab,var(--foreground)_82%,var(--muted))]"
+                      ? "text-[color-mix(in_oklab,var(--foreground)_92%,var(--muted))]"
                       : undefined
                   }
                 >

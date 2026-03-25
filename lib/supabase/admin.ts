@@ -1,14 +1,19 @@
-/**
- * Admin Supabase client (service role).
- * Use only in server-side code when you need to bypass RLS.
- * Not used in phase 1; create when needed (e.g. student bootstrap from backend).
- */
+import { createClient } from "@supabase/supabase-js";
+import { getSupabaseUrl } from "@/lib/supabase/env";
 
-// import { createClient } from "@supabase/supabase-js";
-//
-// export function createAdminClient() {
-//   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-//   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-//   if (!url || !serviceRoleKey) throw new Error("Missing admin Supabase env");
-//   return createClient(url, serviceRoleKey);
-// }
+/**
+ * Service-role Supabase client. Server-only; bypasses RLS.
+ * Required for admin reads/writes across students, progress, and exam_results.
+ */
+export function createAdminClient() {
+  const url = getSupabaseUrl();
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  if (!url || !serviceRoleKey) {
+    throw new Error(
+      "Admin operations require NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in the server environment."
+    );
+  }
+  return createClient(url, serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+}

@@ -118,7 +118,7 @@ export default async function ModulesPage() {
                         </div>
                       </Link>
                     ) : (
-                      <div className="cb-panel border border-[color-mix(in_oklab,var(--border)_85%,transparent)] bg-black/40 p-5 sm:p-6 opacity-60">
+                      <div className="cb-panel cb-unavailable border border-[color-mix(in_oklab,var(--border)_90%,transparent)] bg-black/35 p-5 sm:p-6">
                         <div className="flex items-start justify-between gap-8">
                           <div className="min-w-0 space-y-3">
                             <div className="flex flex-wrap items-center gap-3">
@@ -156,7 +156,7 @@ export default async function ModulesPage() {
       }
       rail={
         <RightRailCard title="How the path works" eyebrow="Rules">
-          <ol className="space-y-4 cb-body text-[color-mix(in_oklab,var(--foreground)_88%,var(--muted))]">
+          <ol className="space-y-4 cb-body">
             <li className="flex gap-3">
               <span className="mt-0.5 text-[var(--muted)]">01</span>
               <span>Complete lessons in order inside each module.</span>

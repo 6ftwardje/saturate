@@ -25,8 +25,9 @@
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --background: #000000;
   --foreground: #ffffff;
-  --muted: rgba(255, 255, 255, 0.55);
-  --border: rgba(255, 255, 255, 0.1);
+  /* Secondary text: ~WCAG-friendly on #000 (was 0.55 — too dim on real displays) */
+  --muted: rgba(255, 255, 255, 0.76);
+  --border: rgba(255, 255, 255, 0.14);
   --card: #000000;
   --accent: #ffffff;
   --accent-foreground: #000000;
@@ -81,7 +82,7 @@ body {
   font-size: 0.9375rem;
   line-height: 1.65;
   font-weight: 300;
-  color: color-mix(in oklab, var(--foreground) 88%, var(--muted));
+  color: color-mix(in oklab, var(--foreground) 94%, var(--muted));
 }
 
 .cb-caption {
@@ -143,9 +144,9 @@ body {
 }
 
 .cb-badge-locked {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
-  color: var(--muted);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .cb-badge-available {
@@ -158,4 +159,15 @@ body {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: var(--foreground);
+}
+
+/*
+ * Unavailable / locked UI — dimmed for hierarchy; normal copy still uses .cb-body / .cb-caption.
+ */
+.cb-unavailable {
+  opacity: 0.65;
+}
+
+.cb-unavailable-lesson {
+  opacity: 0.55;
 }

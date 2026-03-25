@@ -36,6 +36,17 @@ export function IconUser(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function IconAdmin(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[1.1rem] w-[1.1rem]" aria-hidden {...stroke(props)}>
+      <rect x="3" y="3" width="7" height="9" rx="1" />
+      <rect x="14" y="3" width="7" height="5" rx="1" />
+      <rect x="14" y="11" width="7" height="10" rx="1" />
+      <rect x="3" y="15" width="7" height="6" rx="1" />
+    </svg>
+  );
+}
+
 export function IconLifeBuoy(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" className="h-[1.1rem] w-[1.1rem]" aria-hidden {...stroke(props)}>

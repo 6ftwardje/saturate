@@ -38,12 +38,10 @@ export function PageHeader({
           <div className="space-y-2">
             <h1 className={titleClassName ?? defaultTitleClass}>{title}</h1>
             {description && (
-              <p className="cb-body max-w-2xl text-[color-mix(in_oklab,var(--foreground)_90%,var(--muted))]">
-                {description}
-              </p>
+              <p className="cb-body max-w-2xl">{description}</p>
             )}
             {meta && (
-              <div className="pt-1 text-[0.8125rem] font-light text-[var(--muted)]">
+              <div className="pt-1 cb-caption">
                 {meta}
               </div>
             )}

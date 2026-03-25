@@ -37,7 +37,7 @@ export function ModuleLessonRail({
             <div
               className={[
                 "flex gap-3 py-3 border-b border-[color-mix(in_oklab,var(--border)_55%,transparent)] last:border-b-0",
-                isLocked ? "opacity-45" : "",
+                isLocked ? "cb-unavailable-lesson" : "",
                 isCurrent ? "bg-white/[0.04] -mx-3 px-3" : "",
               ].join(" ")}
             >
@@ -50,7 +50,7 @@ export function ModuleLessonRail({
                     "text-[13px] font-light leading-snug",
                     isCurrent
                       ? "text-[var(--foreground)]"
-                      : "text-[color-mix(in_oklab,var(--foreground)_88%,var(--muted))]",
+                      : "text-[color-mix(in_oklab,var(--foreground)_93%,var(--muted))]",
                   ].join(" ")}
                 >
                   {lesson.title}

@@ -7,6 +7,7 @@ import { SaturateHueLine } from "@/components/SaturateHueLine";
 import { SaturateLogo } from "@/components/SaturateLogo";
 import { SidebarNavItem } from "@/components/layout/SidebarNavItem";
 import {
+  IconAdmin,
   IconClose,
   IconDashboard,
   IconLifeBuoy,
@@ -26,10 +27,12 @@ function SidebarContents({
   studentName,
   pathname,
   onNavigate,
+  showAdminNav,
 }: {
   studentName: string | null;
   pathname: string;
   onNavigate?: () => void;
+  showAdminNav: boolean;
 }) {
   const initials = studentName
     ? studentName
@@ -98,6 +101,14 @@ function SidebarContents({
               />
             );
           })}
+          {showAdminNav ? (
+            <SidebarNavItem
+              href="/admin"
+              label="Admin"
+              icon={<IconAdmin />}
+              active={pathname === "/admin" || pathname.startsWith("/admin/")}
+            />
+          ) : null}
         </div>
       </nav>
 
@@ -132,9 +143,12 @@ function SidebarContents({
 export function AppShell({
   children,
   studentName,
+  showAdminNav = false,
 }: {
   children: React.ReactNode;
   studentName: string | null;
+  /** Set server-side from `access_level === 3`. Do not derive from client state. */
+  showAdminNav?: boolean;
 }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -156,7 +170,11 @@ export function AppShell({
   return (
     <div className="flex h-dvh min-h-0 max-h-dvh overflow-hidden bg-[var(--background)] text-[var(--foreground)]">
       <aside className="relative z-30 hidden h-dvh min-h-0 shrink-0 flex-col overflow-hidden border-r border-[color-mix(in_oklab,var(--border)_85%,transparent)] bg-[var(--surface-sidebar)] lg:flex">
-        <SidebarContents studentName={studentName} pathname={pathname} />
+        <SidebarContents
+          studentName={studentName}
+          pathname={pathname}
+          showAdminNav={showAdminNav}
+        />
       </aside>
 
       {mobileOpen && (
@@ -189,6 +207,7 @@ export function AppShell({
           <SidebarContents
             studentName={studentName}
             pathname={pathname}
+            showAdminNav={showAdminNav}
             onNavigate={() => setMobileOpen(false)}
           />
         </div>
