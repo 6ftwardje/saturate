@@ -1,0 +1,19 @@
+# Netlify + Next.js (OpenNext adapter via @netlify/plugin-nextjs)
+# https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/
+
+[build]
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Set in Netlify UI: Site configuration → Environment variables
+#   NEXT_PUBLIC_SUPABASE_URL
+#   NEXT_PUBLIC_SUPABASE_ANON_KEY   (or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY)
+#   SUPABASE_SERVICE_ROLE_KEY       (server-only; required for /admin)
+#
+# Supabase Auth → URL Configuration → add redirect:
+#   https://YOUR_SITE.netlify.app/auth/callback
