@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { SaturateHueLine } from "@/components/SaturateHueLine";
@@ -8,6 +8,7 @@ import { SaturateIconMark } from "@/components/SaturateIconMark";
 import { SaturateLogo } from "@/components/SaturateLogo";
 
 function LoginForm() {
+  const OTP_COOLDOWN_SECONDS = 60;
   const searchParams = useSearchParams();
   const redirectedFrom = searchParams.get("redirectedFrom") ?? "/dashboard";
 
@@ -16,9 +17,22 @@ function LoginForm() {
     "idle"
   );
   const [message, setMessage] = useState("");
+  const [cooldownRemaining, setCooldownRemaining] = useState(0);
+  const [googleLoading, setGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    if (cooldownRemaining <= 0) return;
+
+    const timer = window.setInterval(() => {
+      setCooldownRemaining((seconds) => (seconds > 0 ? seconds - 1 : 0));
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, [cooldownRemaining]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (status === "loading" || cooldownRemaining > 0) return;
     if (!email.trim()) return;
 
     setStatus("loading");
@@ -34,12 +48,42 @@ function LoginForm() {
 
     if (error) {
       setStatus("error");
-      setMessage(error.message);
+      if ("status" in error && error.status === 429) {
+        setCooldownRemaining(OTP_COOLDOWN_SECONDS);
+        setMessage(
+          "We hebben net al een loginmail gestuurd. Wacht 60 seconden en probeer opnieuw."
+        );
+      } else {
+        setMessage(error.message);
+      }
       return;
     }
 
     setStatus("success");
+    setCooldownRemaining(OTP_COOLDOWN_SECONDS);
     setMessage("Check your email for the sign-in link.");
+  }
+
+  async function handleGoogleSignIn() {
+    if (status === "loading" || googleLoading) return;
+
+    setGoogleLoading(true);
+    setMessage("");
+
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectedFrom)}`,
+      },
+    });
+
+    if (error) {
+      setStatus("error");
+      setMessage(error.message);
+      setGoogleLoading(false);
+      return;
+    }
   }
 
   return (
@@ -58,6 +102,26 @@ function LoginForm() {
             Enter your email and we’ll send you a magic link.
           </p>
 
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={googleLoading || status === "loading"}
+            className="w-full cb-btn cb-btn-secondary disabled:cursor-not-allowed disabled:opacity-60 justify-center mb-4"
+          >
+            {googleLoading ? "Redirecting to Google…" : "Continue with Google"}
+          </button>
+
+          <div className="relative mb-4">
+            <div className="absolute inset-0 flex items-center" aria-hidden>
+              <div className="w-full border-t border-[var(--border)]" />
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-black px-2 text-[10px] uppercase tracking-[0.12em] text-[var(--muted)]">
+                or with email
+              </span>
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
@@ -73,7 +137,7 @@ function LoginForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                disabled={status === "loading" || status === "success"}
+                disabled={status === "loading" || googleLoading}
                 autoComplete="email"
                 className="w-full border border-[var(--border)] bg-transparent px-3 py-2.5 text-sm font-light text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:border-white/40 disabled:opacity-60"
               />
@@ -94,13 +158,15 @@ function LoginForm() {
 
             <button
               type="submit"
-              disabled={status === "loading" || status === "success"}
+              disabled={status === "loading" || googleLoading || cooldownRemaining > 0}
               className="w-full cb-btn cb-btn-primary disabled:cursor-not-allowed disabled:opacity-60 justify-center"
             >
               {status === "loading"
                 ? "Sending…"
-                : status === "success"
-                  ? "Check your email"
+                : cooldownRemaining > 0
+                  ? `Resend in ${cooldownRemaining}s`
+                  : status === "success"
+                    ? "Send again"
                   : (
                     <>
                       <span>Send magic link</span>
